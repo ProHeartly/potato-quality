@@ -19,9 +19,11 @@
     <h1>Math Potato</h1>
     <input type="file" id="upload" accept="image/*">
     <br>
-
     <canvas id="canvas" width="400" height="300"></canvas>
-
+    <br>
+    <button id="downloadBtn" style="padding: 10px 20px; background: #6b5c47; color: white; font-weight: bold; border: none; border-radius: 4px; cursor: pointer;">
+        Download Spud
+    </button>
     <script>
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
@@ -44,7 +46,7 @@
                     const tCtx = tiny.getContext('2d');
 
                     tCtx.drawImage(img, 0, 0, 64, 64);
-                    const imgData = tCtx.getImageData(0, 0, canvas.width, canvas.height);
+                    const imgData = tCtx.getImageData(0, 0, 64, 64);
                     const pixels = imgData.data;
 
                     for (let i = 0; i < pixels.length; i+=4) {
@@ -70,6 +72,13 @@
                 };
             };
             reader.readAsDataURL(file);
+        };
+        const downloadBtn = document.getElementById('downloadBtn');
+        downloadBtn.onclick = () => {
+            const link = document.createElement('a');
+            link.download = 'Solanum.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
         };
     </script>
 </body>
