@@ -1,4 +1,4 @@
-# potato-quality
+# potato-quality (1.79 KB btw)
 
 Ummmm about this project, its specifically made for "you spud, we spud" ysws. For this event, I had to make a functional website with potato as theme and total size <2KB (ULTRA HARD version).
 
