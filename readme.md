@@ -9,3 +9,6 @@ Sooooo I'm gonna make a website — which is going to accept a image than it wil
 
 Yeaaa, you heard me righttt — I'm going to use magic of MATHS to convert your image into potato.. Solanum-Verto🧙🏻‍♂️🪄!!!!
 Ermmm.. actuallyy this spell doesn't exist but i made it up — basically it transforms you into Solanum (scientific name of potato) dwwww
+
+
+uhhhhh ig I will be using minifiers 😉

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Potato Quality</title>
+    <style>
+        body {
+            background: #2c251b;
+            color: #f4ece1;
+            text-align: center;
+            padding: 2rem;
+        }
+        input {
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>Math Potato</h1>
+    <input type="file" id="upload" accept="image/*">
+    <br>
+    <canvas id="canvas" width="400" height="300"></canvas>
+    <br>
+    <button id="downloadBtn" style="padding: 10px 20px; background: #6b5c47; color: white; font-weight: bold; border: none; border-radius: 4px; cursor: pointer;">
+        Download Spud
+    </button>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const upload = document.getElementById('upload');
+
+        const img = new Image();
+        upload.onchange = (e) => {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = (readEvent) => {
+                img.src = readEvent.target.result;
+                img.onload = () => {
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+
+                    const tiny = document.createElement('canvas');
+                    tiny.width = 64;
+                    tiny.height = 64;
+
+                    const tCtx = tiny.getContext('2d');
+
+                    tCtx.drawImage(img, 0, 0, 64, 64);
+                    const imgData = tCtx.getImageData(0, 0, 64, 64);
+                    const pixels = imgData.data;
+
+                    for (let i = 0; i < pixels.length; i+=4) {
+                        let r = pixels[i];
+                        let g = pixels[i+1];
+                        let b = pixels[i+2];
+
+                        let tr = (r * 0.321) + (g * 0.767) + (b * 0.189);
+                        let tg = (r * 0.369) + (g * 0.676) + (b * 0.167);
+                        let tb = (r * 0.272) + (g * 0.564) + (b * 0.131);
+
+                        let noise = (Math.random() - 0.5) * 50
+
+                        let q = 64;
+
+                        pixels[i] = Math.round((tr + noise) / q) * q;
+                        pixels[i + 1] = Math.round((tg + noise) / q) * q;
+                        pixels[i + 2] = Math.round((tb + noise) / q) * q;
+                    }
+                    tCtx.putImageData(imgData, 0, 0)
+                    ctx.imageSmoothingEnabled = false;
+                    ctx.drawImage(tiny, 0, 0, 64, 64, 0, 0, canvas.width, canvas.height);
+                };
+            };
+            reader.readAsDataURL(file);
+        };
+        const downloadBtn = document.getElementById('downloadBtn');
+        downloadBtn.onclick = () => {
+            const link = document.createElement('a');
+            link.download = 'Solanum.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        };
+    </script>
+</body>
+</html>
