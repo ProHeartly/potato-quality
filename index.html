@@ -1,22 +1,69 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang=en>
 <head>
-<meta charset=UTF-8>
-<title>Potato Quality</title>
-<link rel=preconnect href=https://fonts.googleapis.com>
-<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bitcount+Ink:wght@100..900&display=swap" rel=stylesheet>
-<style>body{background:#2c251b;color:#f4ece1;text-align:center;padding:2rem;font-family:"Bitcount Ink",system-ui}input{margin-bottom:1rem}</style>
+    <meta charset="UTF-8">
+    <title>Potato Quality</title>
+    <style>
+        body {
+            background: #2c251b;
+            color: #f4ece1;
+            text-align: center;
+            padding: 2rem;
+        }
+    </style>
 </head>
 <body>
-<h1>Math Potato</h1>
-<input type=file id=upload accept=image/*>
-<br>
-<canvas id=canvas width=400 height=300></canvas>
-<br>
-<button id=downloadBtn style="padding:10px 20px;background:#6b5c47;color:#fff;font-weight:700;border:none;border-radius:4px;cursor:pointer">
-Download Spud
-</button>
-<script>const canvas=document.getElementById("canvas"),ctx=canvas.getContext("2d"),upload=document.getElementById("upload"),img=new Image;upload.onchange=t=>{const a=t.target.files[0],e=new FileReader;e.onload=t=>{img.src=t.target.result,img.onload=()=>{canvas.width=img.width,canvas.height=img.height;const t=document.createElement("canvas");t.width=64,t.height=64;const a=t.getContext("2d");a.drawImage(img,0,0,64,64);const e=a.getImageData(0,0,64,64),n=e.data;for(let t=0;t<n.length;t+=4){let a=n[t],e=n[t+1],o=n[t+2],d=.321*a+.767*e+.189*o,c=.369*a+.676*e+.167*o,g=.272*a+.564*e+.131*o,m=50*(Math.random()-.5),l=64;n[t]=Math.round((d+m)/l)*l,n[t+1]=Math.round((c+m)/l)*l,n[t+2]=Math.round((g+m)/l)*l}a.putImageData(e,0,0),ctx.imageSmoothingEnabled=!1,ctx.drawImage(t,0,0,64,64,0,0,canvas.width,canvas.height)}},e.readAsDataURL(a)};const downloadBtn=document.getElementById("downloadBtn");downloadBtn.onclick=()=>{const t=document.createElement("a");t.download="Solanum.png",t.href=canvas.toDataURL("image/png"),t.click()}</script>
+    <h1>Math Potato</h1>
+    <input type="file" id="u" accept="image/*">
+    <canvas id="c"></canvas>
+    <button id="d">
+        Download Spud
+    </button>
+    <script>
+        const x = c.getContext('2d');
+        const im = new Image();
+        u.onchange = (e) => {
+            const f = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = (readEvent) => {
+                im.src = readEvent.target.result;
+                im.onload = () => {
+                    c.width = im.width;
+                    c.height = im.height;
+                    const tiny = document.createElement('canvas');
+                    tiny.width = 64;
+                    tiny.height = 64;
+                    const tCtx = tiny.getContext('2d');
+                    tCtx.drawImage(im, 0, 0, 64, 64);
+                    const imgData = tCtx.getImageData(0, 0, 64, 64);
+                    const pixels = imgData.data;
+                    for (let i = 0; i < pixels.length; i+=4) {
+                        let r = pixels[i];
+                        let g = pixels[i+1];
+                        let b = pixels[i+2];
+                        let tr = (r * 0.321) + (g * 0.767) + (b * 0.189);
+                        let tg = (r * 0.369) + (g * 0.676) + (b * 0.167);
+                        let tb = (r * 0.272) + (g * 0.564) + (b * 0.131);
+                        let noise = (Math.random() - 0.5) * 50
+                        let q = 64;
+                        pixels[i] = Math.round((tr + noise) / q) * q;
+                        pixels[i + 1] = Math.round((tg + noise) / q) * q;
+                        pixels[i + 2] = Math.round((tb + noise) / q) * q;
+                    }
+                    tCtx.putImageData(imgData, 0, 0)
+                    x.imageSmoothingEnabled = false;
+                    x.drawImage(tiny, 0, 0, 64, 64, 0, 0, c.width, c.height);
+                };
+            };
+            reader.readAsDataURL(f);
+        };
+        const d = document.getElementById('d');
+        d.onclick = () => {
+            const link = document.createElement('a');
+            link.download = 'Solanum.png';
+            link.href = c.toDataURL('image/png');
+            link.click();
+        };
+    </script>
 </body>
 </html>

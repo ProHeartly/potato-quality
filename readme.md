@@ -11,4 +11,6 @@ Yeaaa, you heard me righttt — I'm going to use magic of MATHS to convert your 
 Ermmm.. actuallyy this spell doesn't exist but i made it up — basically it transforms you into Solanum (scientific name of potato) dwwww
 
 
-uhhhhh ig I will be using minifiers 😉
+~~uhhhhh ig I will be using minifiers 😉~~
+
+turns out we cant use minifiers so i will have to cut some codes 😭
