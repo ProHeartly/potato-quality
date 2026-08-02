@@ -1,4 +1,4 @@
-# potato-quality (1.79 KB btw)
+# potato-quality (1.90 KB)
 
 Ummmm about this project, its specifically made for "you spud, we spud" ysws. For this event, I had to make a functional website with potato as theme and total size <2KB (ULTRA HARD version).
 
@@ -14,3 +14,5 @@ Ermmm.. actuallyy this spell doesn't exist but i made it up — basically it tra
 ~~uhhhhh ig I will be using minifiers 😉~~
 
 turns out we cant use minifiers so i will have to cut some codes 😭
+
+FINALLYYYY I DID IT 1.90 KB!!! MYSELFFFF IT TOOK A HELLLLLL 

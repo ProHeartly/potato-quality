@@ -22,47 +22,35 @@
     <script>
         const x = c.getContext('2d');
         const im = new Image();
-        u.onchange = (e) => {
-            const f = e.target.files[0];
-            const reader = new FileReader();
-            reader.onload = (readEvent) => {
-                im.src = readEvent.target.result;
-                im.onload = () => {
-                    c.width = im.width;
-                    c.height = im.height;
-                    const tiny = document.createElement('canvas');
-                    tiny.width = 64;
-                    tiny.height = 64;
-                    const tCtx = tiny.getContext('2d');
-                    tCtx.drawImage(im, 0, 0, 64, 64);
-                    const imgData = tCtx.getImageData(0, 0, 64, 64);
-                    const pixels = imgData.data;
-                    for (let i = 0; i < pixels.length; i+=4) {
-                        let r = pixels[i];
-                        let g = pixels[i+1];
-                        let b = pixels[i+2];
-                        let tr = (r * 0.321) + (g * 0.767) + (b * 0.189);
-                        let tg = (r * 0.369) + (g * 0.676) + (b * 0.167);
-                        let tb = (r * 0.272) + (g * 0.564) + (b * 0.131);
-                        let noise = (Math.random() - 0.5) * 50
-                        let q = 64;
-                        pixels[i] = Math.round((tr + noise) / q) * q;
-                        pixels[i + 1] = Math.round((tg + noise) / q) * q;
-                        pixels[i + 2] = Math.round((tb + noise) / q) * q;
-                    }
-                    tCtx.putImageData(imgData, 0, 0)
-                    x.imageSmoothingEnabled = false;
-                    x.drawImage(tiny, 0, 0, 64, 64, 0, 0, c.width, c.height);
-                };
+        u.onchange = e => {
+            im.src = URL.createObjectURL(e.target.files[0]);
+            im.onload = () => {
+                let w = c.width = im.width;
+                let h = c.height = im.height;
+                let t = document.createElement('canvas');
+                t.width = t.height = 64;
+                let tx = t.getContext('2d');
+                tx.drawImage(im, 0, 0, 64, 64);
+                let id = tx.getImageData(0, 0, 64, 64);
+                let p = id.data;
+                for (let i=0; i<p.length; i+=4) {
+                    let r = p[i], g = p[i+1], b = p[i+2];
+                    let noise = (Math.random() - 0.5) * 50
+                    let q = 64;
+                    p[i] = Math.round((r*0.321 + g*0.767 + b*0.189 + noise) / q) * q;
+                    p[i + 1] = Math.round((r*0.369 + g*0.676 + b*0.167 + noise) / q) * q;
+                    p[i + 2] = Math.round((r*0.272 + g*0.564 + b*0.131 + noise) / q) * q;
+                }
+                tx.putImageData(id, 0, 0)
+                x.imageSmoothingEnabled = false;
+                x.drawImage(t, 0, 0, 64, 64, 0, 0, w, h);
             };
-            reader.readAsDataURL(f);
         };
-        const d = document.getElementById('d');
         d.onclick = () => {
-            const link = document.createElement('a');
-            link.download = 'Solanum.png';
-            link.href = c.toDataURL('image/png');
-            link.click();
+            let a = document.createElement('a');
+            a.download = 'Solanum.png';
+            a.href = c.toDataURL();
+            a.click();
         };
     </script>
 </body>
