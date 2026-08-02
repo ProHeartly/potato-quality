@@ -36,7 +36,37 @@
                 img.onload = () => {
                     canvas.width = img.width;
                     canvas.height = img.height;
-                    ctx.drawImage(img, 0, 0);
+
+                    const tiny = document.createElement('canvas');
+                    tiny.width = 64;
+                    tiny.height = 64;
+
+                    const tCtx = tiny.getContext('2d');
+
+                    tCtx.drawImage(img, 0, 0, 64, 64);
+                    const imgData = tCtx.getImageData(0, 0, canvas.width, canvas.height);
+                    const pixels = imgData.data;
+
+                    for (let i = 0; i < pixels.length; i+=4) {
+                        let r = pixels[i];
+                        let g = pixels[i+1];
+                        let b = pixels[i+2];
+
+                        let tr = (r * 0.321) + (g * 0.767) + (b * 0.189);
+                        let tg = (r * 0.369) + (g * 0.676) + (b * 0.167);
+                        let tb = (r * 0.272) + (g * 0.564) + (b * 0.131);
+
+                        let noise = (Math.random() - 0.5) * 50
+
+                        let q = 64;
+
+                        pixels[i] = Math.round((tr + noise) / q) * q;
+                        pixels[i + 1] = Math.round((tg + noise) / q) * q;
+                        pixels[i + 2] = Math.round((tb + noise) / q) * q;
+                    }
+                    tCtx.putImageData(imgData, 0, 0)
+                    ctx.imageSmoothingEnabled = false;
+                    ctx.drawImage(tiny, 0, 0, 64, 64, 0, 0, canvas.width, canvas.height);
                 };
             };
             reader.readAsDataURL(file);
